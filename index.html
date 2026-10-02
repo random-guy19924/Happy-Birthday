@@ -117,13 +117,12 @@
       width: 100%;
       background: var(--card);
       /* Subtle stationery paper lines inside card */
-      background-image: repeating-linear-gradient(
-        transparent,
-        transparent 31px,
-        rgba(140, 90, 60, 0.05) 32px
-      );
+      background-image: repeating-linear-gradient(transparent,
+          transparent 31px,
+          rgba(140, 90, 60, 0.05) 32px);
       border: 2px solid var(--line);
-      border-radius: 8px; /* Removed overly rounded edges */
+      border-radius: 8px;
+      /* Removed overly rounded edges */
       padding: 46px 42px;
       position: relative;
       box-shadow:
@@ -192,7 +191,7 @@
       background: radial-gradient(circle at 35% 35%, #aa4b3b, var(--wax-red));
       border-radius: 50%;
       border: 2px solid #6b261b;
-      box-shadow: 2px 2px 4px rgba(61, 44, 35, 0.3), inset 0 0 6px rgba(0,0,0,0.3);
+      box-shadow: 2px 2px 4px rgba(61, 44, 35, 0.3), inset 0 0 6px rgba(0, 0, 0, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -383,7 +382,7 @@
       transition: transform 1.3s cubic-bezier(.4, 0, .2, 1) var(--d, 0s);
     }
 
-    /* MEMORY CARDS (Handwritten Notebook Feel) */
+    /* MEMORY CARDS */
     .memory {
       border-left: 3.5px solid var(--accent);
       padding: 12px 14px 12px 20px;
@@ -456,37 +455,324 @@
       pointer-events: auto;
     }
 
-    /* FINAL LETTER SCREEN */
-    .final {
-      text-align: center;
+    /* ============================================================
+       ENVELOPE & PHYSICAL HANDWRITTEN LETTER (SPECIFICATION MATCH)
+       ============================================================ */
+
+    /* ENVELOPE SCREEN (SCREENSHOT 1) */
+    .env-wrapper {
+      position: relative;
+      width: min(480px, 90vw);
+      height: 290px;
+      margin: 28px auto 16px;
+      perspective: 1000px;
+      cursor: pointer;
     }
 
-    .final p {
+    .env-body {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #d3b478;
+      border: 2.5px solid var(--line);
+      border-radius: 10px;
+      box-shadow: 0 14px 35px rgba(61, 44, 35, 0.22), 0 0 0 5px var(--bg);
+      overflow: visible;
+    }
+
+    /* Folded Flaps of Envelope */
+    .env-flap-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 155px;
+      background: #caa867;
+      clip-path: polygon(0 100%, 50% 28%, 100% 100%);
+      border-top: 1px solid rgba(61, 44, 35, 0.15);
+      z-index: 2;
+    }
+
+    .env-flap-left {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 220px;
+      background: #c09d57;
+      clip-path: polygon(0 0, 85% 50%, 0 100%);
+      z-index: 1;
+    }
+
+    .env-flap-right {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 220px;
+      background: #b6934c;
+      clip-path: polygon(100% 0, 15% 50%, 100% 100%);
+      z-index: 1;
+    }
+
+    .env-flap-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 155px;
+      background: #dec184;
+      border-bottom: 1.5px solid rgba(61, 44, 35, 0.2);
+      clip-path: polygon(0 0, 50% 100%, 100% 0);
+      transform-origin: top center;
+      transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 4;
+      backface-visibility: hidden;
+    }
+
+    .env-wrapper.open .env-flap-top {
+      transform: rotateX(180deg);
+      z-index: 0;
+    }
+
+    /* Pulsing Deep Red Wax Seal Button */
+    .wax-seal-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle at 35% 35%, #d93829, #8e1a10);
+      border-radius: 50%;
+      border: 3px solid #631008;
+      box-shadow:
+        0 0 22px rgba(217, 56, 41, 0.65),
+        0 6px 14px rgba(0, 0, 0, 0.35),
+        inset 0 0 10px rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffe875;
+      font-size: 22px;
+      z-index: 5;
+      cursor: pointer;
+      animation: pulseSeal 2s infinite ease-in-out;
+      transition: transform 0.2s ease;
+    }
+
+    .wax-seal-btn:hover {
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    @keyframes pulseSeal {
+
+      0%,
+      100% {
+        box-shadow: 0 0 18px rgba(217, 56, 41, 0.55), 0 4px 12px rgba(0, 0, 0, 0.25);
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      50% {
+        box-shadow: 0 0 32px rgba(217, 56, 41, 0.9), 0 6px 18px rgba(0, 0, 0, 0.38);
+        transform: translate(-50%, -50%) scale(1.08);
+      }
+    }
+
+    /* Seal Crest Accent Lines */
+    .seal-lines {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 140px;
+      height: 2px;
+      background: rgba(140, 100, 50, 0.35);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .seal-subtext {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-top: 14px;
+      text-transform: lowercase;
+    }
+
+    /* PHYSICAL HANDWRITTEN PAPER SHEET (SCREENSHOT 2 SPECIFICATIONS) */
+    .paper-sheet {
+      position: relative;
+      width: 100%;
+      background: #fbf5e8;
+      /* Aged cream paper */
+      /* Ruled horizontal lines */
+      background-image: repeating-linear-gradient(transparent,
+          transparent 33px,
+          rgba(210, 180, 140, 0.38) 34px);
+      /* Torn top edge using CSS clip-path */
+      clip-path: polygon(0% 12px, 3% 2px, 6% 11px, 9% 1px, 12% 10px, 15% 2px, 18% 12px, 21% 1px,
+          24% 11px, 27% 3px, 30% 12px, 33% 2px, 36% 10px, 39% 0px, 42% 11px, 45% 2px,
+          48% 12px, 51% 1px, 54% 10px, 57% 3px, 60% 12px, 63% 2px, 66% 11px, 69% 1px,
+          72% 10px, 75% 3px, 78% 12px, 81% 1px, 84% 11px, 87% 2px, 90% 10px, 93% 0px,
+          96% 11px, 100% 2px, 100% 100%, 0% 100%);
+      border-radius: 2px 2px 4px 4px;
+      padding: 48px 36px 48px 72px;
+      /* Extra left padding for red margin line */
+      /* 3 Stacked offset depth shadows underneath */
+      box-shadow:
+        4px 4px 0px #e4d3b6,
+        8px 8px 0px #d5c2a3,
+        12px 18px 32px rgba(61, 44, 35, 0.16);
+      margin: 10px 0 20px;
       text-align: left;
     }
 
-    .big {
-      font-family: 'Lora', serif;
-      font-size: 20.5px;
+    /* Red Margin Line on the left */
+    .paper-sheet::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 52px;
+      width: 2px;
+      background: rgba(232, 145, 145, 0.75);
+    }
+
+    /* Faint Coffee Ring Stain in top right corner */
+    .coffee-stain {
+      position: absolute;
+      top: 14px;
+      right: 28px;
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      border: 7px solid rgba(160, 110, 70, 0.14);
+      box-shadow: inset 0 0 12px rgba(160, 110, 70, 0.08);
+      transform: rotate(-12deg);
+      pointer-events: none;
+      filter: blur(0.5px);
+    }
+
+    /* Folded Corner Bottom-Right */
+    .paper-fold {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, transparent 50%, #e2cfb0 50%);
+      box-shadow: -3px -3px 6px rgba(61, 44, 35, 0.15);
+      pointer-events: none;
+    }
+
+    /* Left Margin Gutter Doodles */
+    .margin-doodles {
+      position: absolute;
+      top: 55px;
+      left: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 60px;
+      font-size: 16px;
+      color: rgba(140, 90, 60, 0.45);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    /* Pagination Dots at top of paper */
+    .paper-dots {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      margin-bottom: 20px;
+    }
+
+    .paper-dots span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #d4a373;
+    }
+
+    .paper-dots span.active {
+      background: #8c5a3c;
+      width: 22px;
+      border-radius: 4px;
+    }
+
+    /* Date Top Right */
+    .paper-date {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      font-family: 'Caveat', cursive;
+      font-size: 20px;
+      color: var(--muted);
+    }
+
+    /* Self-Typing Handwritten Text Area */
+    .letter-content {
+      font-family: 'Caveat', cursive;
+      font-size: 25px;
+      line-height: 1.88;
+      color: #2b211b;
+      min-height: 320px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* Ink Cursor */
+    .ink-cursor {
+      display: inline-block;
+      width: 3px;
+      height: 1.15em;
+      background: var(--accent);
+      margin-left: 2px;
+      vertical-align: -3px;
+      animation: inkBlink 0.8s infinite;
+    }
+
+    @keyframes inkBlink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    /* Fading Footer (Sign-off, Signature, P.S.) */
+    .letter-footer-block {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.85s ease, transform 0.85s ease;
+      margin-top: 26px;
+      font-family: 'Caveat', cursive;
+    }
+
+    .letter-footer-block.show {
+      opacity: 1;
+      transform: none;
+    }
+
+    .letter-sign-off {
+      font-size: 24px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .letter-signature {
+      font-size: 32px;
+      font-weight: 700;
       color: var(--text);
-      line-height: 1.8;
-      text-align: center !important;
+      margin-bottom: 18px;
     }
 
-    .season-block {
-      background: #faf5ed;
-      border: 1.5px solid var(--line);
-      border-radius: 6px;
-      padding: 22px 28px;
-      text-align: left;
-      margin: 22px 0;
-      display: block;
-      box-shadow: 4px 4px 0px var(--line);
-    }
-
-    .season-block p {
-      font-size: 15px;
-      margin: 6px 0;
+    .letter-ps {
+      font-size: 21px;
+      color: var(--muted);
+      border-top: 1px dashed rgba(140, 90, 60, 0.25);
+      padding-top: 14px;
+      line-height: 1.5;
     }
 
     /* EMOJI FLOAT */
@@ -526,7 +812,7 @@
       margin: 18px auto;
       cursor: crosshair;
       user-select: none;
-      touch-action: none; /* Crucial for phone swipe gesture without scrolling */
+      touch-action: none;
       width: fit-content;
     }
 
@@ -591,6 +877,19 @@
           0 0 0 3px var(--bg),
           0 0 0 4.5px var(--line),
           5px 5px 0px 4.5px var(--line);
+      }
+
+      .paper-sheet {
+        padding: 42px 20px 36px 52px;
+      }
+
+      .paper-sheet::before {
+        left: 36px;
+      }
+
+      .margin-doodles {
+        left: 10px;
+        font-size: 14px;
       }
 
       .washi-tape {
@@ -787,47 +1086,82 @@
         <div id="reward" class="secret">
           <p style="margin-top:20px"><b>🎉 REWARD UNLOCKED.</b></p>
           <p>You get all three. Obviously. The system has been compromised.</p>
-          <button class="btn" onclick="go(6)">READ AUTHOR'S NOTE →</button>
+          <button class="btn" onclick="go(6)">OPEN YOUR LETTER ✉️ →</button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FINAL -->
+  <!-- FINAL (ENVELOPE + HANDWRITTEN SELF-TYPING LETTER) -->
   <section class="screen" id="s6">
     <div class="wrap">
-      <div class="card final">
-        <div class="washi-tape"></div>
-        <div class="postmark">
-          <span class="postmark-stamp">AUTHOR'S NOTE // FINAL</span>
-          <div class="wax-seal">🤍</div>
+
+      <!-- VIEW 1: ENVELOPE WITH PULSING WAX SEAL (SCREENSHOT 1) -->
+      <div id="env-view" class="card final" style="text-align:center">
+        <div class="kicker">✉ SOMETHING HANDWRITTEN</div>
+        <h2>There's a letter.</h2>
+        <p>Break the seal to open it.</p>
+
+        <div class="env-wrapper" id="env-box" onclick="openEnvelope()">
+          <div class="env-body">
+            <div class="env-flap-top"></div>
+            <div class="env-flap-left"></div>
+            <div class="env-flap-right"></div>
+            <div class="env-flap-bottom"></div>
+            <div class="seal-lines"></div>
+            <div class="wax-seal-btn" id="wax-seal">⭐</div>
+          </div>
         </div>
-        <div class="kicker">author's note</div>
-        <div style="font-size:52px;line-height:1;margin-bottom:14px">🎂🎈📜</div>
-        <h2 style="text-align:center">Happy Birthday, Swity.</h2>
-        <p class="big">I could've just said "Happy Birthday."<br>But that seemed unnecessarily normal.</p>
-        <p>I don't really know when you went from being just another person I knew to someone whose presence became a
-          noticeable part of my life. There wasn't some dramatic anime moment with background music and falling cherry
-          blossoms. It just happened gradually, through random conversations, stupid jokes, small moments, and all the
-          completely insignificant things that somehow end up becoming the memories you remember later.</p>
-        <p>So, as the author of this extremely unnecessary production, I officially approve the renewal of your series
-          for another season.</p>
-        <div class="season-block">
-          <p><b>New season:</b> 16</p>
-          <p><b>Episodes:</b> 365</p>
-          <p><b>Plot:</b> Unpredictable</p>
-          <p><b>Character development:</b> Ongoing</p>
-          <p><b>Plot armour:</b> Hopefully sufficient</p>
-          <p><b>Ending:</b> Not even remotely planned</p>
+
+        <div class="seal-subtext">tap to break the wax seal</div>
+      </div>
+
+      <!-- VIEW 2: PHYSICAL PAPER HANDWRITTEN TYPING LETTER (SCREENSHOT 2) -->
+      <div id="letter-view" style="display:none;width:100%">
+        <div class="paper-sheet">
+          <div class="coffee-stain"></div>
+          <div class="paper-fold"></div>
+          <div class="paper-date">5 October 2026</div>
+
+          <!-- Left Margin Gutter Doodles -->
+          <div class="margin-doodles">
+            <span>✦</span>
+            <span>♡</span>
+            <span>←</span>
+            <span>~~</span>
+            <span>!</span>
+            <span>&</span>
+          </div>
+
+          <!-- Top Pagination Dots -->
+          <div class="paper-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span class="active"></span>
+            <span></span>
+          </div>
+
+          <!-- Self-Typing Handwritten Content -->
+          <div class="letter-content"><span id="type-target"></span><span class="ink-cursor" id="ink-cursor"></span>
+          </div>
+
+          <!-- Sequentially Fading Sign-off & P.S. -->
+          <div class="letter-footer-block" id="letter-footer">
+            <div class="letter-sign-off">With care,</div>
+            <div class="letter-signature">— The unnecessarily dedicated author ♡</div>
+            <div class="letter-ps">P.S. — I considered writing this by hand. Then I remembered my handwriting looks like
+              a graph of some kind of machine, so this is the more considerate option.</div>
+          </div>
         </div>
-        <p>I hope this next chapter gives you plenty of reasons to laugh, some unexpectedly good memories, and people
-          who make the difficult episodes a little easier.</p>
-        <p>Anyway, enough emotional dialogue before this turns into the final episode of some overly dramatic anime.</p>
-        <p class="big" style="margin-top:14px"><b>Happy Birthday, Swity. 🎉</b></p>
-        <div style="text-align:center;margin-top:14px">
-          <span style="font-family:'Caveat',cursive;font-size:26px;color:var(--accent)">— The unnecessarily dedicated author ♡</span>
+
+        <div style="text-align:center;margin-top:10px">
+          <button class="btn" onclick="replayLetter()" style="font-size:13.5px;padding:10px 18px">↺ REPLAY
+            LETTER</button>
         </div>
       </div>
+
     </div>
   </section>
 
@@ -839,7 +1173,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
       if (n === 1) setTimeout(animBars, 350);
       if (n === 4) initCake();
-      if (n === 6) setTimeout(blast, 500);
+      if (n === 6) resetEnvelopeView();
     }
     window.addEventListener('load', () => {
       setTimeout(() => document.getElementById('load').style.width = '100%', 300);
@@ -886,6 +1220,106 @@
         });
         requestAnimationFrame(run);
       })();
+    }
+
+    /* ============================================================
+       ENVELOPE OPENING & SELF-TYPING HANDWRITTEN LETTER SCRIPT
+       ============================================================ */
+    const letterParagraphs = [
+      "Dear Swity,\n\n",
+      "I don't really know when you went from being just another person I knew to someone whose presence became a noticeable part of my life.\n\n",
+      "There wasn't some dramatic anime moment with background music and falling cherry blossoms. It just happened gradually – through random conversations, stupid jokes, and all the completely insignificant things that somehow end up becoming the memories you actually remember.\n\n",
+      "Every decent story has a character who makes the whole arc make more sense. You're one of those.\n\n",
+      "So here's to another season. More episodes. More completely unnecessary chaos. More moments that don't look important until they are.\n\n",
+      "I hope this year gives you plenty of reasons to laugh, some unexpectedly good memories, and people who make the difficult episodes a little easier. Happy Birthday, Swity. 🎂"
+    ];
+    const fullLetterText = letterParagraphs.join('');
+    let typeIdx = 0, typeTimer = null;
+
+    function resetEnvelopeView() {
+      clearTimeout(typeTimer);
+      const envBox = document.getElementById('env-box');
+      const envView = document.getElementById('env-view');
+      const letterView = document.getElementById('letter-view');
+      const target = document.getElementById('type-target');
+      const footer = document.getElementById('letter-footer');
+      const cursor = document.getElementById('ink-cursor');
+
+      if (envBox) envBox.classList.remove('open');
+      if (envView) envView.style.display = 'block';
+      if (letterView) letterView.style.display = 'none';
+      if (target) target.textContent = '';
+      if (footer) footer.classList.remove('show');
+      if (cursor) cursor.style.display = 'inline-block';
+      typeIdx = 0;
+    }
+
+    function openEnvelope() {
+      const envBox = document.getElementById('env-box');
+      const envView = document.getElementById('env-view');
+      const letterView = document.getElementById('letter-view');
+
+      if (!envBox || envBox.classList.contains('open')) return;
+      envBox.classList.add('open');
+
+      // Wax Seal Crack Confetti Burst
+      const seal = document.getElementById('wax-seal');
+      if (seal) {
+        const r = seal.getBoundingClientRect();
+        burst(r.left + r.width / 2, r.top + r.height / 2, '🎉');
+      }
+
+      // 3D Flap opens, then transitions to physical letter page!
+      setTimeout(() => {
+        envView.style.display = 'none';
+        letterView.style.display = 'block';
+        startTypingLetter();
+      }, 950);
+    }
+
+    function replayLetter() {
+      resetEnvelopeView();
+      openEnvelope();
+    }
+
+    function startTypingLetter() {
+      const target = document.getElementById('type-target');
+      const cursor = document.getElementById('ink-cursor');
+      const footer = document.getElementById('letter-footer');
+
+      target.textContent = '';
+      typeIdx = 0;
+
+      function typeChar() {
+        if (typeIdx < fullLetterText.length) {
+          const char = fullLetterText.charAt(typeIdx);
+          target.textContent += char;
+          typeIdx++;
+
+          // Natural handwriting pauses based on punctuation
+          let delay = 26 + Math.random() * 14;
+          if (char === '.' || char === '!' || char === '?') {
+            delay = 380 + Math.random() * 180;
+          } else if (char === ',' || char === '–' || char === '—') {
+            delay = 240 + Math.random() * 90;
+          } else if (char === '\n') {
+            delay = 320;
+          }
+
+          typeTimer = setTimeout(typeChar, delay);
+        } else {
+          // Writing Complete!
+          if (cursor) cursor.style.display = 'none';
+          if (footer) {
+            setTimeout(() => {
+              footer.classList.add('show');
+              blast();
+            }, 350);
+          }
+        }
+      }
+
+      typeChar();
     }
 
     /* CAKE GAME - SWIPE GESTURE SUPPORT (MOBILE & DESKTOP) */
