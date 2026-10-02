@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIRTHDAY ARC // CLASSIFIED</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Space+Mono:wght@700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fff7fb;
+      --line: #f1cfe0;
+      --text: #34253a;
+      --muted: #8a6e96;
+      --accent: #ff6fae;
+      --accent2: #6ecff6;
+      --gold: #ffc857;
+      --purple: #9b7cff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 10% 10%, #ffd6eb 0%, transparent 30%),
+        radial-gradient(circle at 90% 8%, #d6f0ff 0%, transparent 28%),
+        radial-gradient(circle at 55% 95%, #fff2cc 0%, transparent 32%),
+        radial-gradient(circle at 20% 75%, #ead6ff 0%, transparent 25%),
+        linear-gradient(150deg, #fff9fd, #f5f2ff 50%, #eef8ff);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .09;
+      background-image: radial-gradient(#d060a0 1.2px, transparent 1.2px);
+      background-size: 26px 26px
+    }
+
+    /* BALLOONS */
+    .party {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden
+    }
+
+    .bn {
+      position: absolute;
+      font-size: clamp(38px, 5vw, 64px);
+      animation: fl var(--fd, 4s) ease-in-out infinite var(--foff, 0s)
+    }
+
+    @keyframes fl {
+      50% {
+        transform: translateY(-18px) rotate(6deg)
+      }
+    }
+
+    .cn {
+      position: absolute;
+      font-size: 24px;
+      animation: sp var(--sd, 6s) linear infinite var(--soff, 0s)
+    }
+
+    @keyframes sp {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    /* LAYOUT */
+    .wrap {
+      width: min(900px, 92vw);
+      margin: auto
+    }
+
+    .screen {
+      min-height: 100vh;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 38px 0;
+      position: relative;
+      z-index: 1
+    }
+
+    .screen.active {
+      display: flex
+    }
+
+    /* CARD */
+    .card {
+      width: 100%;
+      background: rgba(255, 255, 255, .92);
+      border: 1.5px solid rgba(255, 180, 220, .45);
+      border-top: 4px solid var(--accent);
+      border-radius: 26px;
+      padding: 42px;
+      box-shadow: 0 8px 16px rgba(220, 140, 180, .1), 0 28px 70px rgba(200, 100, 160, .13);
+      backdrop-filter: blur(10px);
+      animation: cardIn .55s cubic-bezier(.22, 1, .36, 1) both
+    }
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(24px) scale(.97)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    /* TYPE */
+    .kicker {
+      font: 700 11px/1 'Space Mono', monospace;
+      letter-spacing: .22em;
+      color: var(--purple);
+      text-transform: uppercase;
+      margin-bottom: 16px
+    }
+
+    h1 {
+      font-size: clamp(40px, 8vw, 74px);
+      font-weight: 900;
+      line-height: .93;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ff6fae 0%, #9b7cff 55%, #6ecff6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    h2 {
+      font-size: clamp(24px, 4.5vw, 33px);
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 18px
+    }
+
+    p {
+      font-size: 16.5px;
+      line-height: 1.82;
+      color: var(--muted);
+      margin-bottom: 12px
+    }
+
+    strong,
+    b {
+      color: var(--text)
+    }
+
+    /* BUTTON */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #ff6fae, #9b7cff);
+      border: none;
+      border-radius: 14px;
+      padding: 15px 26px;
+      color: #fff;
+      font: 700 15px 'Inter', sans-serif;
+      cursor: pointer;
+      margin-top: 22px;
+      box-shadow: 0 4px 18px rgba(255, 111, 174, .35);
+      transition: transform .2s, box-shadow .2s;
+      position: relative;
+      overflow: hidden
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .25), transparent);
+      opacity: 0;
+      transition: .2s
+    }
+
+    .btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 32px rgba(255, 111, 174, .45)
+    }
+
+    .btn:hover::after {
+      opacity: 1
+    }
+
+    .btn:active {
+      transform: translateY(0) scale(.99)
+    }
+
+    /* PROGRESS */
+    .progress {
+      height: 7px;
+      background: #f4e0ec;
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 22px 0
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 1.5s cubic-bezier(.4, 0, .2, 1)
+    }
+
+    /* CURSOR */
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      background: var(--accent);
+      vertical-align: -2px;
+      border-radius: 2px;
+      animation: blink 1s infinite
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0
+      }
+    }
+
+    /* PROFILE */
+    .profile {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
+      margin: 20px 0
+    }
+
+    .stat {
+      border: 1.5px solid rgba(255, 180, 220, .5);
+      border-radius: 16px;
+      padding: 16px;
+      background: linear-gradient(135deg, #fff9fd, #fdf4ff);
+      box-shadow: 0 4px 16px rgba(220, 140, 190, .1);
+      transition: transform .2s, box-shadow .2s
+    }
+
+    .stat:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(255, 111, 174, .18)
+    }
+
+    .stat b {
+      display: block;
+      font: 700 10px 'Space Mono', monospace;
+      letter-spacing: .15em;
+      color: var(--purple);
+      text-transform: uppercase;
+      margin-bottom: 10px
+    }
+
+    .stat span {
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 600
+    }
+
+    .bar {
+      height: 6px;
+      background: #f0dce8;
+      border-radius: 99px;
+      overflow: hidden;
+      margin-top: 8px
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--gold));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 1.3s cubic-bezier(.4, 0, .2, 1) var(--d, 0s)
+    }
+
+    /* MEMORY */
+    .memory {
+      border-left: 3px solid #f9b8d4;
+      padding: 10px 0 10px 20px;
+      margin: 16px 0;
+      transition: border-color .25s
+    }
+
+    .memory:hover {
+      border-color: var(--accent)
+    }
+
+    .memory strong {
+      color: var(--text);
+      font-size: 15px;
+      display: block;
+      margin-bottom: 3px
+    }
+
+    .memory .sub {
+      color: var(--muted);
+      font-size: 14.5px
+    }
+
+    /* CHOICE */
+    .choice {
+      display: grid;
+      gap: 11px;
+      margin-top: 20px
+    }
+
+    .cbtn {
+      background: rgba(255, 255, 255, .85);
+      border: 1.5px solid rgba(255, 180, 220, .5);
+      border-radius: 14px;
+      padding: 16px 20px;
+      color: var(--text);
+      font: 600 14.5px 'Inter', sans-serif;
+      cursor: pointer;
+      text-align: left;
+      transition: all .22s;
+      position: relative;
+      overflow: hidden
+    }
+
+    .cbtn::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(#ff6fae, #9b7cff);
+      opacity: 0;
+      transition: .22s
+    }
+
+    .cbtn:hover {
+      background: linear-gradient(135deg, #fff0f7, #f5f0ff);
+      border-color: rgba(255, 111, 174, .55);
+      transform: translateX(5px)
+    }
+
+    .cbtn:hover::before {
+      opacity: 1
+    }
+
+    /* SECRET */
+    .secret {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: .5s;
+      pointer-events: none
+    }
+
+    .secret.show {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto
+    }
+
+    /* FINAL */
+    .final {
+      text-align: center
+    }
+
+    .big {
+      font-size: 20px;
+      color: var(--text);
+      line-height: 1.9
+    }
+
+    .season-block {
+      background: linear-gradient(135deg, #fff9fd, #f5f0ff);
+      border: 1.5px solid rgba(255, 180, 220, .45);
+      border-radius: 16px;
+      padding: 22px 28px;
+      text-align: left;
+      margin: 18px 0;
+      display: block
+    }
+
+    .season-block p {
+      font-size: 15px;
+      margin: 5px 0
+    }
+
+    /* EMOJI FLOAT */
+    .ef {
+      position: fixed;
+      pointer-events: none;
+      z-index: 300;
+      font-size: 28px;
+      animation: eu 1.5s ease-out forwards
+    }
+
+    @keyframes eu {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1)
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(-120px) scale(1.5) rotate(20deg)
+      }
+    }
+
+    /* CONFETTI */
+    #cc {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 200;
+      display: none
+    }
+
+    /* CAKE GAME */
+    #cakewrap {
+      position: relative;
+      display: block;
+      margin: 16px auto;
+      cursor: crosshair;
+      user-select: none;
+      width: fit-content
+    }
+
+    #cakecanvas {
+      border-radius: 20px;
+      display: block;
+      margin: 0 auto;
+      filter: drop-shadow(0 10px 30px rgba(255, 111, 174, .35))
+    }
+
+    #knifel {
+      position: absolute;
+      pointer-events: none;
+      font-size: 34px;
+      top: 0;
+      left: 0;
+      transform: translate(-50%, -80%) rotate(-35deg);
+      z-index: 10;
+      display: none;
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .25))
+    }
+
+    #cmsg {
+      font: 700 17px/1 'Inter', sans-serif;
+      color: var(--accent);
+      margin-top: 14px;
+      min-height: 26px
+    }
+
+    #ccount {
+      font: 700 11px/1 'Space Mono', monospace;
+      letter-spacing: .12em;
+      color: var(--purple);
+      margin-top: 6px;
+      text-transform: uppercase
+    }
+
+    #cpwrap {
+      width: 240px;
+      height: 6px;
+      background: #f0dce8;
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 10px auto 0
+    }
+
+    #cpbar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ff6fae, #9b7cff);
+      border-radius: 99px;
+      transition: width .35s
+    }
+
+    @media(max-width:640px) {
+      .card {
+        padding: 24px
+      }
+
+      .profile {
+        grid-template-columns: 1fr
+      }
+
+      h2 {
+        font-size: 22px
+      }
+
+      #cakecanvas {
+        width: 260px !important;
+        height: 260px !important
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="party" aria-hidden="true">
+    <span class="bn" style="left:2%;top:8%;--fd:4s;--foff:0s">🎈</span>
+    <span class="bn" style="right:3%;top:15%;--fd:4.5s;--foff:-1.2s">🎈</span>
+    <span class="bn" style="left:7%;bottom:6%;--fd:3.8s;--foff:-2.1s">🎈</span>
+    <span class="bn" style="right:7%;bottom:8%;--fd:5s;--foff:-.7s">🎈</span>
+    <span class="bn" style="left:46%;top:3%;font-size:32px;--fd:4.2s;--foff:-1.8s">🎀</span>
+    <span class="cn" style="left:14%;top:7%;--sd:5s;--soff:0s;color:#ff6fae">✦</span>
+    <span class="cn" style="right:16%;top:6%;--sd:7s;--soff:-2s;color:#9b7cff">✧</span>
+    <span class="cn" style="left:22%;bottom:9%;--sd:6s;--soff:-3s;color:#ffc857">✦</span>
+    <span class="cn" style="right:20%;bottom:14%;--sd:5.5s;--soff:-1s;color:#6ecff6">✧</span>
+  </div>
+  <canvas id="cc"></canvas>
+
+  <!-- BOOT -->
+  <section class="screen active" id="s0">
+    <div class="wrap">
+      <div class="card">
+        <div style="font-size:50px;margin-bottom:12px;line-height:1">🧁 🕯️ 🕯️ 🕯️</div>
+        <div class="kicker">🎂 birthday protocol // boot sequence</div>
+        <h1>CHARACTER<br>FOUND. 🎉</h1>
+        <p id="boot">Scanning birthday database<span class="cursor"></span></p>
+        <div class="progress"><span id="load"></span></div>
+        <p>A completely unnecessary amount of technology has been deployed for one birthday. Also, someone ordered too
+          many balloons.</p>
+        <button class="btn" onclick="go(1)">BEGIN EPISODE →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROFILE -->
+  <section class="screen" id="s1">
+    <div class="wrap">
+      <div class="card">
+        <div class="kicker">episode 01 // character database</div>
+        <h2>Swity,</h2>
+        <p>The following information has been classified as unnecessarily important.</p>
+        <div class="profile">
+          <div class="stat"><b>LEVEL</b><span>16</span></div>
+          <div class="stat"><b>RARITY</b><span>∞★</span></div>
+          <div class="stat"><b>CHAOS</b>
+            <div class="bar"><i style="--d:.1s" data-w=".82"></i></div>
+          </div>
+          <div class="stat"><b>PLOT ARMOUR</b>
+            <div class="bar"><i style="--d:.25s" data-w=".96"></i></div>
+          </div>
+          <div class="stat"><b>SOCIAL BATTERY</b>
+            <div class="bar"><i style="--d:.4s" data-w=".61"></i></div>
+          </div>
+          <div class="stat"><b>MAIN CHARACTER ENERGY</b>
+            <div class="bar"><i style="--d:.55s" data-w=".91"></i></div>
+          </div>
+        </div>
+        <p><b>Special ability:</b> Turning ordinary moments into stories worth remembering.</p>
+        <button class="btn" onclick="go(2)">NEXT EPISODE →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LORE -->
+  <section class="screen" id="s2">
+    <div class="wrap">
+      <div class="card">
+        <div class="kicker">episode 02 // previous arcs</div>
+        <h2>The lore.</h2>
+        <p>Every decent character has a few episodes that somehow become important later.</p>
+        <div class="memory"><strong>ARC 01 — The first text</strong><span class="sub">09/04/26 was the day when I
+            decided to text you. I was nervous but I did it anyway.</span></div>
+        <div class="memory"><strong>ARC 02 — The Saturday ritual</strong><span class="sub">You proposed the Saturday
+            ritual which I was unsure of following but chatting with you made me really happy.</span></div>
+        <div class="memory"><strong>ARC 03 — The secrets shared & late night chats</strong>Maybe I don't need to tell
+          you, Seetu.<span class="sub"></span></div>
+        <button class="btn" onclick="go(3)">CONTINUE →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SINCERE -->
+  <section class="screen" id="s3">
+    <div class="wrap">
+      <div class="card">
+        <div class="kicker">episode 03 // character development</div>
+        <h2>Okay, seriously for a second.</h2>
+        <p>Somewhere between the random conversations, stupid jokes and completely ordinary days, you became someone I'm
+          genuinely glad I got to know.</p>
+        <p>There wasn't some dramatic anime moment where the soundtrack started playing and everything suddenly made
+          sense. It just happened gradually.</p>
+        <p>And I think that's what makes the good friendships memorable: most of the important parts don't look
+          important while they're happening.</p>
+        <p>Enough talk for now let's celebrate first!!!</p>
+        <button class="btn" onclick="go(4)">CUT THE CAKE FIRST 🎂</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAKE GAME -->
+  <section class="screen" id="s4">
+    <div class="wrap">
+      <div class="card" style="text-align:center">
+        <div class="kicker">🎮 mini-game // cake cutting ritual</div>
+        <h2>Cut the cake to continue! 🔪</h2>
+        <p>Click on the cake to make slices. Fill the meter to unlock your reward!</p>
+        <div id="cakewrap">
+          <canvas id="cakecanvas" width="310" height="310"></canvas>
+          <div id="knifel">🔪</div>
+        </div>
+        <div id="cmsg">Hover the cake and click to slice! ✨</div>
+        <div id="ccount">0 / 8 slices</div>
+        <div id="cpwrap">
+          <div id="cpbar"></div>
+        </div>
+        <button class="btn" id="cknext" style="display:none;margin:22px auto 0" onclick="go(5)">CLAIM YOUR REWARD 🎁
+          →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHOICE -->
+  <section class="screen" id="s5">
+    <div class="wrap">
+      <div class="card">
+        <div class="kicker">🎂 episode 04 // choose your reward</div>
+        <h2>Choose your reward. 🎁</h2>
+        <p>Only one option is required to unlock the final message.</p>
+        <div class="choice">
+          <button class="cbtn" onclick="unlock()">A — Receive +100 XP</button>
+          <button class="cbtn" onclick="unlock()">B — Acquire maximum plot armour</button>
+          <button class="cbtn" onclick="unlock()">C — Continue being the protagonist</button>
+        </div>
+        <div id="reward" class="secret">
+          <p style="margin-top:20px"><b>🎉 REWARD UNLOCKED.</b></p>
+          <p>You get all three. Obviously. The system has been compromised.</p>
+          <button class="btn" onclick="go(6)">READ AUTHOR'S NOTE →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL -->
+  <section class="screen" id="s6">
+    <div class="wrap">
+      <div class="card final">
+        <div class="kicker">author's note</div>
+        <div style="font-size:58px;line-height:1;margin-bottom:14px">🎂🎈🎉</div>
+        <h2>Happy Birthday, Swity.</h2>
+        <p class="big">I could've just said "Happy Birthday."<br>But that seemed unnecessarily normal.</p>
+        <p>I don't really know when you went from being just another person I knew to someone whose presence became a
+          noticeable part of my life. There wasn't some dramatic anime moment with background music and falling cherry
+          blossoms. It just happened gradually, through random conversations, stupid jokes, small moments, and all the
+          completely insignificant things that somehow end up becoming the memories you remember later.</p>
+        <p>So, as the author of this extremely unnecessary production, I officially approve the renewal of your series
+          for another season.</p>
+        <div class="season-block">
+          <p><b>New season:</b> 16</p>
+          <p><b>Episodes:</b> 365</p>
+          <p><b>Plot:</b> Unpredictable</p>
+          <p><b>Character development:</b> Ongoing</p>
+          <p><b>Plot armour:</b> Hopefully sufficient</p>
+          <p><b>Ending:</b> Not even remotely planned</p>
+        </div>
+        <p>I hope this next chapter gives you plenty of reasons to laugh, some unexpectedly good memories, and people
+          who make the difficult episodes a little easier.</p>
+        <p>Anyway, enough emotional dialogue before this turns into the final episode of some overly dramatic anime.</p>
+        <p class="big"><b>Happy Birthday, Swity. 🎉</b></p>
+        <p style="color:var(--muted)">— The unnecessarily dedicated author</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const screens = [...document.querySelectorAll('.screen')];
+    function go(n) {
+      screens.forEach(s => s.classList.remove('active'));
+      screens[n].classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (n === 1) setTimeout(animBars, 350);
+      if (n === 4) initCake();
+      if (n === 6) setTimeout(blast, 500);
+    }
+    window.addEventListener('load', () => {
+      setTimeout(() => document.getElementById('load').style.width = '100%', 300);
+      setTimeout(() => {
+        document.getElementById('boot').innerHTML = 'Target identified. Birthday protocol ready.<span class="cursor"></span>';
+      }, 1800);
+    });
+    function animBars() {
+      document.querySelectorAll('.bar i').forEach(b => {
+        const w = parseFloat(b.dataset.w);
+        setTimeout(() => b.style.transform = 'scaleX(' + w + ')', 50);
+      });
+    }
+    function unlock() {
+      document.getElementById('reward').classList.add('show');
+      burst(window.innerWidth / 2, window.innerHeight * .6, '🎉');
+    }
+    function burst(x, y, e) {
+      ['🎉', '✨', '🎊', '⭐', '💖', '🎀'].forEach((em, i) => {
+        const d = document.createElement('div'); d.className = 'ef'; d.textContent = e || em;
+        d.style.cssText = 'left:' + (x + (-50 + i * 20)) + 'px;top:' + y + 'px;animation-delay:' + (i * .06) + 's';
+        document.body.appendChild(d); setTimeout(() => d.remove(), 1500);
+      });
+    }
+    const cc = document.getElementById('cc'), cx2 = cc.getContext('2d'); let parts = [];
+    function blast() {
+      cc.style.display = 'block'; cc.width = innerWidth; cc.height = innerHeight;
+      const cols = ['#ff6fae', '#9b7cff', '#6ecff6', '#ffc857', '#ff8fab', '#c77dff', '#34d399'];
+      for (let i = 0; i < 150; i++)parts.push({
+        x: Math.random() * cc.width, y: -30, r: Math.random() * 6 + 3, c: cols[~~(Math.random() * cols.length)],
+        vx: (Math.random() - .5) * 5, vy: Math.random() * 4 + 2, rot: Math.random() * 360, rv: (Math.random() - .5) * 10, a: 1, sq: Math.random() > .5
+      });
+      (function run() {
+        if (!parts.length) { cc.style.display = 'none'; return; }
+        cx2.clearRect(0, 0, cc.width, cc.height);
+        parts = parts.filter(p => {
+          p.x += p.vx; p.y += p.vy; p.rot += p.rv; p.vy += .065; p.a -= .007;
+          if (p.y > cc.height || p.a <= 0) return false;
+          cx2.save(); cx2.globalAlpha = p.a; cx2.translate(p.x, p.y); cx2.rotate(p.rot * Math.PI / 180);
+          cx2.fillStyle = p.c;
+          if (p.sq) cx2.fillRect(-p.r, -p.r / 2, p.r * 2, p.r);
+          else { cx2.beginPath(); cx2.arc(0, 0, p.r, 0, Math.PI * 2); cx2.fill(); }
+          cx2.restore(); return true;
+        });
+        requestAnimationFrame(run);
+      })();
+    }
+    /* CAKE GAME */
+    const SLICES = 8; let done = 0, inited = false, cuts = [], cCtx, cnv;
+    const msgs = ['First cut! 🎂', 'Nice slice! ✨', "You're a pro! 🔪", 'Halfway there! 🎊', 'So good! 💖', 'Almost done! ⭐', 'One more! 🎉', 'CAKE COMPLETE! 🥳'];
+    function initCake() {
+      if (inited) return; inited = true;
+      cnv = document.getElementById('cakecanvas'); cCtx = cnv.getContext('2d');
+      const wrap = document.getElementById('cakewrap'), knife = document.getElementById('knifel');
+      drawCake();
+      wrap.addEventListener('mousemove', e => {
+        const r = cnv.getBoundingClientRect();
+        knife.style.display = 'block'; knife.style.left = (e.clientX - r.left) + 'px'; knife.style.top = (e.clientY - r.top) + 'px';
+      });
+      wrap.addEventListener('mouseleave', () => knife.style.display = 'none');
+      cnv.addEventListener('click', e => {
+        if (done >= SLICES) return;
+        const r = cnv.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top;
+        cuts.push(Math.atan2(py - 155, px - 155)); done++; drawCake();
+        document.getElementById('cmsg').textContent = msgs[done - 1];
+        document.getElementById('ccount').textContent = done + ' / ' + SLICES + ' slices';
+        document.getElementById('cpbar').style.width = (done / SLICES * 100) + '%';
+        burst(e.clientX, e.clientY, '🎂');
+        if (done >= SLICES) { blast(); setTimeout(() => { document.getElementById('cknext').style.display = 'inline-flex'; }, 900); }
+      });
+    }
+    function drawCake() {
+      const c = cCtx, cx = 155, cy = 155, R = 128; c.clearRect(0, 0, 310, 310);
+      c.save(); c.shadowColor = 'rgba(255,111,174,.3)'; c.shadowBlur = 28;
+      const g = c.createRadialGradient(cx - 30, cy - 30, 8, cx, cy, R);
+      g.addColorStop(0, '#ffb3d0'); g.addColorStop(.55, '#ff6fae'); g.addColorStop(1, '#e0407e');
+      c.beginPath(); c.arc(cx, cy, R, 0, Math.PI * 2); c.fillStyle = g; c.fill(); c.restore();
+      c.save(); c.beginPath(); c.arc(cx, cy, R, 0, Math.PI * 2);
+      c.lineWidth = 18; c.strokeStyle = 'rgba(255,255,255,.38)'; c.stroke();
+      c.lineWidth = 9; c.strokeStyle = 'rgba(255,255,255,.2)'; c.stroke(); c.restore();
+      const sc = ['#ffc857', '#9b7cff', '#6ecff6', '#ff6fae', '#fff', '#34d399'];
+      for (let i = 0; i < 22; i++) {
+        const a = (i / 22) * Math.PI * 2, dr = R * (.35 + Math.sin(i * 5) * .26);
+        c.save(); c.translate(cx + Math.cos(a) * dr, cy + Math.sin(a) * dr); c.rotate(a + .8);
+        c.fillStyle = sc[i % sc.length]; c.beginPath();
+        if (c.roundRect) c.roundRect(-5, -2, 10, 4, 2); else c.rect(-5, -2, 10, 4);
+        c.fill(); c.restore();
+      }
+      cuts.forEach(a => {
+        c.save(); c.beginPath(); c.moveTo(cx, cy);
+        c.lineTo(cx + Math.cos(a) * (R + 4), cy + Math.sin(a) * (R + 4));
+        c.strokeStyle = 'rgba(255,255,255,.72)'; c.lineWidth = 2.5; c.lineCap = 'round';
+        c.shadowColor = '#fff'; c.shadowBlur = 7; c.stroke(); c.restore();
+      });
+      [[cx, cy - R * .48], [cx - R * .36, cy - R * .32], [cx + R * .36, cy - R * .32]].forEach(([px, py], i) => {
+        const cc2 = ['#ffc857', '#9b7cff', '#6ecff6'][i];
+        c.fillStyle = cc2; c.fillRect(px - 4, py - 12, 8, 18);
+        c.save(); c.shadowColor = '#ffc857'; c.shadowBlur = 14;
+        c.beginPath(); c.ellipse(px, py - 19, 5, 9, 0, 0, Math.PI * 2); c.fillStyle = '#ffe066'; c.fill(); c.restore();
+        c.beginPath(); c.ellipse(px, py - 17, 2.5, 5, 0, 0, Math.PI * 2); c.fillStyle = '#fffde0'; c.fill();
+      });
+      c.beginPath(); c.arc(cx, cy, 16, 0, Math.PI * 2); c.fillStyle = 'rgba(255,255,255,.25)'; c.fill();
+      c.beginPath(); c.arc(cx, cy, 9, 0, Math.PI * 2); c.fillStyle = 'rgba(255,255,255,.35)'; c.fill();
+    }
+  </script>
+</body>
+
+</html>
